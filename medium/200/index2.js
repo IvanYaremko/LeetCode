@@ -1,50 +1,36 @@
-import { Queue } from "../../dsa/Queue"
-
-class Graph {
-  constructor(vertices){
-    this.total = vertices
-    this.adjList = new Map()
-  }
-
-  addVertex(v){
-    this.adjList.set(v, [])
-  }
-
-  addEdge(v, w){
-    this.adjList.get(v).push(w)
-    this.adjList.get(w).push(v)
-  }
-
-  bfs(startingNode){
-    const visited = {} 
-    const q = new Queue()
-
-    visited[startingNode] = true
-    q.enqueue(startingNode)
-    while(!q.isEmpty()){
-      const queuedEle = q.dequeue()
-
-      const neighbours = this.adjList.get(queuedEle)
-
-      for(const neigh of neighbours){
-        if(!visited[neigh]){
-          visited[neigh] = true
-          q.enqueue(neigh)
-        }
+const LAND = '1'
+const WATER = '0'
+const dirs = [[1, 0], [-1, 0], [0,1], [0,-1]]
+function numOfIslands(grid){
+  let islands = 0
+  for(let i = 0; i < grid.length; i++){
+    for(let j = 0; j < grid[i].length; j++){
+      if(grid[i][j] === LAND) {
+        islands++ 
+        // bfs
       }
     }
   }
+  return islands
+}
 
-  dfs(startingNode) {
-    const visited = {}
-    this.DFSUtl(startingNode, visited)
-  }
-  DFSUtl(vertex, visited) {
-    visited[vertex] = true
-    const neighbours = this.adjList.get(vertex)
-    for(const neigh of neighbours){
-      if(!visited[neigh]){
-        this.DFSUtl(neigh, visited)
+function bfs(grid, i, j){
+  const q = [[i,j]]
+  grid[i][j] = WATER
+
+  while(q.length > 0){
+    const [I, J] = q.shift()
+    
+    for(const [dirX, dirY] of dirs){
+      const newI = dirX + I
+      const newJ = dirY + J
+
+      if(0 <= newI && newI < grid.length &&
+        0 <= newJ && newJ < grid[0].length &&
+        grid[newI][newJ] === LAND
+      ){
+        grid[newI][newJ] = WATER
+        q.push([newI, newJ])
       }
     }
   }

@@ -1,45 +1,49 @@
 import { Queue } from "../Queue"
 
 class Graph{
-  constructor(num){
-    this.numOfVertices = num
+  constructor(){
     this.adjList = new Map()
   }
+
   addVertex(v){
     this.adjList.set(v, [])
   }
+
   addEdge(v, w){
     this.adjList.get(v).push(w)
     this.adjList.get(w).push(v)
   }
+
   bfs(startingNode){
     const visited = {}
-    const q = new Queue()
-    visited[startingNode] = true
-    q.enqueue(startingNode)
-    while(!q.isEmpty()){
-      const queueEle = q.dequeue()
-      const neighbours = this.adjList.get(queueEle)
+    const queue = new Queue()
 
-      for(const neighbour of neighbours){
-        if(!visited[neighbour]){
-          visited[neighbour] = true
-          q.enqueue(neighbour)
+    visited[startingNode] = true
+    queue.enqueue(startingNode)
+    while(!queue.isEmpty){
+      const queueEle = queue.dequeue()
+
+      const neigbours = this.adjList.get(queueEle)
+      for(const neigh of neigbours){
+        if(!visited[neigh]){
+          visited[neigh] = true
+          queue.enqueue(neigh)
         }
       }
     }
   }
+
   dfs(startingNode){
     const visited = {}
-    this.DFSUtil(startingNode, visited)
+    this.dfsUtil(startingNode, this.dfsUtil)
   }
-  DFSUtil(vertex, visited){
-    visited[vertex] = true
-    const neighbours = this.adjList.get(vertex)
-
-    for(const neigh of neighbours){
+  dfsUtil(node, visited){
+    visited[node] = true
+    const neighbors = this.adjList.get(node)
+    for(const neigh in neighbors){
       if(!visited[neigh]){
-        this.DFSUtil(neigh, visited)
+        visited[neigh] = true
+        this.dfsUtil(neigh, visited)
       }
     }
   }
