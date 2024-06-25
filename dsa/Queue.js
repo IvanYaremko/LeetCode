@@ -20,7 +20,7 @@ export class Queue {
   }
 
   isEmpty() {
-    return this.items.length == 0;
+    return this.items.length === 0;
   }
 
   get printQueue() {

@@ -150,18 +150,13 @@ class Graph {
  
     dfs(startingNode)
     {
-
         var visited = {};
-
         this.DFSUtil(startingNode, visited);
     }
     DFSUtil(vert, visited)
     {
         visited[vert] = true;
-        console.log(vert);
-
         var get_neighbours = this.AdjList.get(vert);
-
         for (var i in get_neighbours) {
             var get_elem = get_neighbours[i];
             if (!visited[get_elem])
