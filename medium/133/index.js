@@ -11,26 +11,19 @@ function Node(val, neighbors) {
  * @return {Node}
  */
 var cloneGraph = function(node) {
-  if (node == null) {
-      return null;
+  if(node === null) return null
+
+  const visited = new Map()
+  function dfs(node){
+    if(visited.get(node)) return visited.get(node)
+
+      const clone = new Node(node.val)
+      visited.set(node, clone)
+      for(const neigh of node.neighbors){
+        clone.neighbors.push(dfs(neigh))
+      }
+      return clone
   }
 
-  let visited = new Map();
-
-  function dfs(node) {
-      if (visited.has(node)) {
-          return visited.get(node);
-      }
-
-      let clone = new Node(node.val);
-      visited.set(node, clone);
-
-      for (let neighbor of node.neighbors) {
-          clone.neighbors.push(dfs(neighbor));
-      }
-
-      return clone;
-  }
-
-  return dfs(node);
+  return dfs(node)
 };
